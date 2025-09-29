@@ -125,4 +125,6 @@ Route::middleware('auth:sanctum')->group(function () {
  Route::get('/kelas/{id}/students', [KelasController::class, 'students']);                 // daftar mahasiswa
 Route::get('/kelas/{id}/students/{sid}/report', [KelasController::class, 'studentReport']); // ringkas per mahasiswa (path param)
 Route::get('/kelas/{id}/reports', [KelasController::class, 'studentReport']);
+    Route::get('/healthz', fn () => response('OK', 200));
+
 });
