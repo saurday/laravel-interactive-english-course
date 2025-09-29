@@ -19,6 +19,8 @@ use App\Http\Controllers\WeekController;
 use App\Http\Controllers\CourseResourceController;
 use App\Http\Controllers\QuizAttemptController;
 
+    Route::get('/healthz', fn () => response('OK', 200));
+
 // Auth
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -125,6 +127,5 @@ Route::middleware('auth:sanctum')->group(function () {
  Route::get('/kelas/{id}/students', [KelasController::class, 'students']);                 // daftar mahasiswa
 Route::get('/kelas/{id}/students/{sid}/report', [KelasController::class, 'studentReport']); // ringkas per mahasiswa (path param)
 Route::get('/kelas/{id}/reports', [KelasController::class, 'studentReport']);
-    Route::get('/healthz', fn () => response('OK', 200));
 
 });
