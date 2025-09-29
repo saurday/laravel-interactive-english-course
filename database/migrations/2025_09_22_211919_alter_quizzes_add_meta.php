@@ -9,9 +9,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::table('quizzes', function (Blueprint $table) {
             // jadikan opsional agar bisa buat quiz tanpa material terlebih dulu
-            if (Schema::hasColumn('quizzes','material_id')) {
-                $table->unsignedBigInteger('material_id')->nullable()->change();
-            }
+      
             // meta yg dibutuhkan frontend
             $table->text('description')->nullable()->after('title');
             $table->integer('time_limit')->default(0)->after('description'); // menit; 0 = no limit
@@ -22,7 +20,6 @@ return new class extends Migration {
     public function down(): void {
         Schema::table('quizzes', function (Blueprint $table) {
             $table->dropColumn(['description','time_limit','shuffle']);
-            // tidak perlu ubah kembali material_id -> non-null
         });
     }
 };
