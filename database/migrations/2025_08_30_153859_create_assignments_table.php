@@ -6,28 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('assignments', function (Blueprint $table) {
-        $table->id();
-        $table->unsignedBigInteger('material_id');
-        $table->string('title');
-        $table->text('description')->nullable();
-        $table->enum('type', ['writing', 'speaking', 'listening', 'reading', 'other']);
-        $table->string('file_path')->nullable();
-        $table->timestamps();
-        $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
-    });
+   public function up(): void
+{
+    if (Schema::hasTable('assignments')) {
+        return; // tabel sudah ada -> jangan create lagi
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('assignments');
-    }
+    Schema::create('assignments', function (Blueprint $table) {
+        // SAMAKAN dengan skema nyata kamu (lihat screenshot yg kamu kirim)
+        $table->id();
+        $table->foreignId('kelas_id')->nullable()->index();
+        $table->string('title');
+        $table->text('instructions')->nullable();
+        $table->dateTime('due_date')->nullable();
+        $table->integer('max_score')->default(100);
+        $table->boolean('allow_file')->default(true);
+        $table->foreignId('created_by')->nullable()->index();
+        $table->timestamps();
+    });
+}
+
+public function down(): void
+{
+    Schema::dropIfExists('assignments');
+}
 };
