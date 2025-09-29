@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('assignments', function (Blueprint $table) {
         $table->id();
-        $table->unsignedBigInteger('material_id');
         $table->string('title');
         $table->text('description')->nullable();
         $table->enum('type', ['writing', 'speaking', 'listening', 'reading', 'other']);
         $table->string('file_path')->nullable();
         $table->timestamps();
-        $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
     });
     }
 
