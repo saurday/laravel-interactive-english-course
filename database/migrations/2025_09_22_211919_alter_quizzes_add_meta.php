@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::table('quizzes', function (Blueprint $table) {
             // jadikan opsional agar bisa buat quiz tanpa material terlebih dulu
-      
+
             // meta yg dibutuhkan frontend
             $table->text('description')->nullable()->after('title');
             $table->integer('time_limit')->default(0)->after('description'); // menit; 0 = no limit

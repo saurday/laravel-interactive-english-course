@@ -18,8 +18,11 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\WeekController;
 use App\Http\Controllers\CourseResourceController;
 use App\Http\Controllers\QuizAttemptController;
+use App\Http\Controllers\PlacementTestController;
+use App\Http\Controllers\CefrLevelController;
+use App\Http\Controllers\CefrContentController;
 
-    Route::get('/healthz', fn () => response('OK', 200));
+Route::get('/healthz', fn() => response('OK', 200));
 
 // Auth
 Route::post('register', [AuthController::class, 'register']);
@@ -124,8 +127,39 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/kelas/{id}/mahasiswa', [KelasController::class, 'students']);
 
- Route::get('/kelas/{id}/students', [KelasController::class, 'students']);                 // daftar mahasiswa
-Route::get('/kelas/{id}/students/{sid}/report', [KelasController::class, 'studentReport']); // ringkas per mahasiswa (path param)
-Route::get('/kelas/{id}/reports', [KelasController::class, 'studentReport']);
+    Route::get('/kelas/{id}/students', [KelasController::class, 'students']);                 // daftar mahasiswa
+    Route::get('/kelas/{id}/students/{sid}/report', [KelasController::class, 'studentReport']); // ringkas per mahasiswa (path param)
+    Route::get('/kelas/{id}/reports', [KelasController::class, 'studentReport']);
+
+    // routes/api.php
+    Route::get('/placement/state', [PlacementTestController::class, 'state']);
+    Route::post('/placement/start', [PlacementTestController::class, 'start']);
+    Route::get('/placement/attempts/{id}', [PlacementTestController::class, 'show']);
+    Route::post('/placement/attempts/{id}/answer', [PlacementTestController::class, 'answer']);
+    Route::post('/placement/attempts/{id}/submit', [PlacementTestController::class, 'submit']);
+    Route::get('/placement/attempts/{id}/review', [PlacementTestController::class,'review']); // NEW
+
+
+
+   // CEFR levels + resources
+Route::prefix('cefr-levels')->group(function () {
+    // GET /api/cefr-levels
+    Route::get('/', [CefrLevelController::class, 'index']);
+
+    // GET /api/cefr-levels/by-code/A1
+    Route::get('/by-code/{code}', [CefrLevelController::class, 'showByCode']);
+
+    // GET /api/cefr-levels/123
+    Route::get('/{id}', [CefrLevelController::class, 'show'])->whereNumber('id');
+
+    // GET/POST /api/cefr-levels/123/resources
+    Route::get('/{id}/resources',  [CefrContentController::class, 'index'])->whereNumber('id');
+    Route::post('/{id}/resources', [CefrContentController::class, 'store'])->whereNumber('id');
+});
+
+// (opsional) endpoint update/hapus materi per resource id
+Route::put('cefr-resources/{id}',    [CefrContentController::class, 'update'])->whereNumber('id');
+Route::delete('cefr-resources/{id}', [CefrContentController::class, 'destroy'])->whereNumber('id');
+
 
 });
