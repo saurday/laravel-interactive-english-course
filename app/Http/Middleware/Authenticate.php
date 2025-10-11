@@ -9,11 +9,11 @@ class Authenticate extends Middleware
 {
 
 
-    protected function redirectTo(Request $request): ?string
+protected function redirectTo(Request $request): ?string
 {
     if ($request->expectsJson() || $request->is('api/*')) {
-        return null; // biar 401, bukan redirect
+        return null; // -> 401 JSON, tidak redirect
     }
-    return '/login'; // atau route('login') jika ada
+    return '/login'; // jangan pakai route('login') kalau tidak punya named route
 }
 }
