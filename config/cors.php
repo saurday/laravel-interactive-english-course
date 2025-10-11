@@ -8,8 +8,8 @@ return [
 
     // Untuk dev (Vite di :5173). Bisa spesifik: ['http://localhost:5173']
     'allowed_origins' => [
-        'https://interactiveenglish.vercel.app',
-        'https://interactiveenglish.netlify.app/',
+        'https://lexentenglish.vercel.app',
+        'https://interactiveenglish.netlify.app',
         'http://localhost:5173',
     ],
 
