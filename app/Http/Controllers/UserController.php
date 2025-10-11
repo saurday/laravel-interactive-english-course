@@ -24,6 +24,34 @@ class UserController extends Controller
         );
     }
 
+    // POST /api/users  (admin only)
+public function store(Request $request)
+{
+    $auth = $request->user();
+    if (!$auth || $auth->role !== 'admin') {
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
+
+    $validated = $request->validate([
+        'name'     => ['required','string','max:255'],
+        'email'    => ['required','email','unique:users,email'],
+        'password' => ['required','string','min:6'],
+        'role'     => ['required','in:admin,dosen,mahasiswa'],
+    ]);
+
+    $user = new User();
+    $user->name     = $validated['name'];
+    $user->email    = $validated['email'];
+    $user->password = \Illuminate\Support\Facades\Hash::make($validated['password']);
+    $user->role     = $validated['role'];
+    $user->save();
+
+    return response()->json($user, 201);
+}
+
+
+
+
     // GET /api/users/{id}
     public function show($id)
     {

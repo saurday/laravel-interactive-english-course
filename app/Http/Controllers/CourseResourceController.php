@@ -11,6 +11,31 @@ use App\Models\Progress;
 
 class CourseResourceController extends Controller
 {
+    public function index(Request $request)
+{
+    $query = CourseResource::with(['week:id,week_number', 'quiz:id,title', 'assignment:id,title'])
+        ->orderByDesc('created_at');
+
+    if ($type = $request->query('type')) {
+        $query->where('type', $type);
+    }
+    if ($weekId = $request->query('week_id')) {
+        $query->where('week_id', $weekId);
+    }
+
+    $list = $query->get();
+
+    $out = [];
+    foreach ($list as $r) {
+        $out[] = $this->resourcePayload($r);
+    }
+
+    return response()->json([
+        'resources' => $out,
+        'total'     => count($out),
+    ]);
+}
+
     // POST /api/weeks/{week}/resources
     public function store(Request $request, $weekId)
     {

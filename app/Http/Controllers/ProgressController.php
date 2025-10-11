@@ -1,5 +1,6 @@
 <?php
 
+// app/Http/Controllers/ProgressController.php
 namespace App\Http\Controllers;
 
 use App\Models\CourseResource;
@@ -16,18 +17,14 @@ class ProgressController extends Controller
 
         $userId = $request->user()->id;
 
-        // Simpan progress per resource (100 atau 0)
         $progress = Progress::updateOrCreate(
-            ['mahasiswa_id' => $userId, 'resource_id' => $resource->id],
+            ['user_id' => $userId, 'course_resource_id' => $resource->id],
             [
-                'percentage' => $data['completed'] ? 100 : 0,
-                'completed'  => $data['completed'],
+                'completed'    => $data['completed'],
+                'completed_at' => $data['completed'] ? now() : null,
             ]
         );
 
-        return response()->json([
-            'ok' => true,
-            'progress' => $progress,
-        ]);
+        return response()->json(['ok' => true, 'progress' => $progress]);
     }
 }
