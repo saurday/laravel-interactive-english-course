@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Week;
+use App\Models\Quiz;
+use App\Models\Comment;
+use App\Models\Progress;
+use App\Models\Assignment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
