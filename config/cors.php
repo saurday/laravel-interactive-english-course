@@ -2,25 +2,36 @@
 
 return [
 
-    'paths' => ['api/*', 'login', 'logout', 'sanctum/csrf-cookie'],
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    */
 
+    // Izinkan SEMUA PATH, termasuk OPTIONS yang dikirim browser
+    'paths' => ['*'],
+
+    // Semua method HTTP boleh
     'allowed_methods' => ['*'],
 
-    // Untuk dev (Vite di :5173). Bisa spesifik: ['http://localhost:5173']
+    // Daftar origin FE yang boleh akses API kamu
     'allowed_origins' => [
-        'https://lexentenglish.vercel.app',
-        'https://interactiveenglish.netlify.app',
-        'http://localhost:5173',
+        'https://lexentenglish.vercel.app',     // FE Production Vercel
+        'http://localhost:5173',                // FE Dev mode (Vite)
     ],
 
+    // Tidak perlu patterns
     'allowed_origins_patterns' => [],
 
+    // Semua header boleh
     'allowed_headers' => ['*'],
 
+    // Header apa yang diekspose ke FE
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    // true jika pakai cookie/Sanctum SPA. Jika pakai Bearer token, bisa false.
+    // Kalau tidak pakai SESSION / COOKIE Sanctum, TRUE tidak perlu
+    // Kamu pakai Bearer Token → set FALSE
     'supports_credentials' => false,
 ];
