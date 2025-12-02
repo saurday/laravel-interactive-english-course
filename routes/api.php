@@ -21,6 +21,12 @@ use App\Http\Controllers\CefrLevelController;
 use App\Http\Controllers\CefrContentController;
 use App\Http\Controllers\AdminProgressController;
 use App\Http\Controllers\PlacementAdminController;
+use Illuminate\Http\Request;
+
+Route::options('/{any}', function () {
+    return response()->noContent(); 
+})->where('any', '.*');
+
 
 Route::get('/healthz', fn () => response('OK', 200));
 
